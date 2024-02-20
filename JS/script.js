@@ -1,47 +1,54 @@
-const wordsArray1 = ['Adventure', 'Mystery', 'Fantasy', 'Sci-Fi', 'Romance'];
-const wordsArray2 = ['brave hero', 'clever detective', 'magical creature', 'space explorer', 'loving couple'];
-const wordsArray3 = ['discovered', 'solved', 'encountered', 'explored', 'celebrated'];
-const wordsArray4 = ['ancient artifact', 'hidden treasure', 'alien planet', 'enchanted forest', 'true love'];
-const wordsArray5 = ['with courage', 'with wit', 'with magic', 'among the stars', 'happily ever after'];
+document.addEventListener("DOMContentLoaded", function() {
+    const words = {
+        button1: ["The Turkey", "Mom", "Dad", "The dog", "My teacher", "The elephant", "The cat"],
+        button2: ["Sat on", "ate", "danced with", "saw", "doesn't", "kissed"],
+        button3: ["a funny", "a scary", "a goofy", "a slimy", "a barking", "a fat"],
+        button4: ["goat", "monkey", "fish", "cow", "frog", "bug", "worm"],
+        button5: ["on the moon", "on the chair", "in my spagehetti", "in my soup", "on the grass", "in my shoes"]
+    };
 
-let choices = ['', '', '', '', ''];
+    const output1 = document.getElementById("output1");
+    const output2 = document.getElementById("output2");
+    const output3 = document.getElementById("output3");
+    const output4 = document.getElementById("output4");
+    const output5 = document.getElementById("output5");
+    const output6 = document.getElementById("output6");
+    const output = document.getElementById("mainoutput");
 
-function showChoices() {
-    document.getElementById('btn1').textContent = choices[0] || 'Word/Phrase 1';
-    document.getElementById('btn2').textContent = choices[1] || 'Word/Phrase 2';
-    document.getElementById('btn3').textContent = choices[2] || 'Word/Phrase 3';
-    document.getElementById('btn4').textContent = choices[3] || 'Word/Phrase 4';
-    document.getElementById('btn5').textContent = choices[4] || 'Word/Phrase 5';
-}
+    const generateBtn = document.getElementById("generate");
+    const resetBtn = document.getElementById("reset");
+    const selections = {};
 
-function generateStory() {
-    const story = choices.join(' ');
-    document.getElementById('storyOutput').textContent = `Once upon a time, ${story}.`;
-}
+    function generateStory() {
+        let story = "";
+        for (let key in selections) {
+            story += selections[key] + " ";
+        }
+        output.textContent = story;
+    }
 
-    document.getElementById('btn1').addEventListener('click', function () {
-    choices[0] = wordsArray1[Math.floor(Math.random() * wordsArray1.length)];
-    showChoices();
+    for (let key in words) {
+        const btn = document.getElementById(key);
+        const outputElement = document.getElementById("output" + key[key.length - 1]);
+        btn.addEventListener("click", function() {
+            const choices = words[key];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            selections[key] = choices[randomIndex];
+            outputElement.textContent = selections[key];
+        });
+    }
+
+    generateBtn.addEventListener("click", function() {
+        generateStory();
+    });
+
+    resetBtn.addEventListener("click", function() {
+        for (let key in selections) {
+            selections[key] = "";
+        }
+        output.textContent = "";
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById("output" + i).textContent = "";
+        }
+    });
 });
-
-    document.getElementById('btn2').addEventListener('click', function () {
-        choices[1] = wordsArray2[Math.floor(Math.random() * wordsArray2.length)];
-        showChoices();
-    });
-
-    document.getElementById('btn3').addEventListener('click', function () {
-        choices[2] = wordsArray3[Math.floor(Math.random() * wordsArray3.length)];
-        showChoices();
-    });
-
-    document.getElementById('btn4').addEventListener('click', function () {
-        choices[3] = wordsArray4[Math.floor(Math.random() * wordsArray4.length)];
-        showChoices();
-    });
-
-    document.getElementById('btn5').addEventListener('click', function () {
-        choices[4] = wordsArray5[Math.floor(Math.random() * wordsArray5.length)];
-        showChoices();
-    });
-
-    document.getElementById('btnGenerate').addEventListener('click', generateStory);
